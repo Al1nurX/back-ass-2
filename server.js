@@ -4,7 +4,8 @@ const User = require('./models/user');
 const adminRoutes = require('./routes/adminRoutes');
 const homeRoutes = require('./routes/homeRoutes');
 const weatherRoutes = require('./routes/weatherRoutes');
-const { getWeatherData } = require('./services/weatherService');
+const nasaRoutes = require('./routes/nasaRoutes');
+const adviceRoutes = require('./routes/adviceRoutes');
 
 const app = express();
 const PORT = 3000;
@@ -19,8 +20,9 @@ app.use(express.static('public'));
 
 app.use('/', homeRoutes);
 app.use('/', adminRoutes);
-
-app.use('/weather', weatherRoutes);
+app.use('/', weatherRoutes);
+app.use('/', nasaRoutes);
+app.use('/api', adviceRoutes);
 
 app.get('/', (req, res) => {
 	res.render('login');
@@ -84,15 +86,13 @@ app.post('/login', async (req, res) => {
 	}
 });
 
-app.post('/weather', async (req, res) => {
+app.get('/nasaData', async (req, res) => {
 	try {
-			const { city } = req.body;
-			const weatherData = await getWeatherData(city);
-			console.log(weatherData); 
-			res.render('home', { weather: weatherData }); 
+		const nasaData = await fetchNasaData();
+		res.render('nasaData', { nasaData });
 	} catch (error) {
-			console.error(error);
-			res.status(500).json({ error: 'Internal Server Error' });
+		console.error('Error fetching NASA data:', error);
+		res.status(500).send('Internal Server Error');
 	}
 });
 

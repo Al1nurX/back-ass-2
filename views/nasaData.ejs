@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>NASA Data</title>
+	<link rel="stylesheet" href="/nasa.css">
+</head>
+
+<body>
+	<div class="container">
+		<h1>NASA Data</h1>
+		<p><strong>Title:</strong>
+			<%= nasaData.title %>
+		</p>
+		<p><strong>Date:</strong>
+			<%= nasaData.date %>
+		</p>
+		<img src="<%= nasaData.hdurl %>" alt="NASA Image">
+		<p class="description"><strong>Description:</strong>
+			<%= nasaData.explanation %>
+		</p>
+	</div>
+</body>
+
+</html>
