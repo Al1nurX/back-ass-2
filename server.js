@@ -10,8 +10,6 @@ const adviceRoutes = require('./routes/adviceRoutes');
 const app = express();
 const PORT = 3000;
 
-let userIdCounter = 1;
-
 app.set('view engine', 'ejs');
 
 app.use(express.json());
@@ -43,8 +41,11 @@ app.post('/signup', async (req, res) => {
 		} else {
 			const creationDate = new Date();
 			const isAdmin = name === 'alinur';
+			const lastUser = await User.findOne().sort({ userId: -1 });
+			const userId = lastUser ? lastUser.userId + 1 : 1;
+
 			const userData = await User.create({
-				userId: userIdCounter++,
+				userId,
 				name,
 				password,
 				creationDate,
